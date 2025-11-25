@@ -136,7 +136,7 @@ clean:
 # ---[ Help Target
 
 help:
-	@echo "Whisper - Covert Channel Protocol Library"
+	@echo "Cheshire - Covert Channel Protocol Library"
 	@echo ""
 	@echo "Directory Structure:"
 	@echo "  src/         - Core library source files"
