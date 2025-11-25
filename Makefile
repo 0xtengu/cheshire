@@ -3,7 +3,7 @@ CFLAGS  = -Wall -Wextra -O2 -Isrc -D_GNU_SOURCE -fPIC
 
 # --- DIRECTORY STRUCTURE ---
 SRC_DIR     = src
-EXAMPLES_DIR = examples
+EXAMPLES_DIR = example
 BUILD_DIR   = build
 
 # --- SOURCE FILES ---
