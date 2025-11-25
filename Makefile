@@ -1,7 +1,3 @@
-# ==========
-# MAKEFILE
-# ==========
-
 CC      = gcc
 CFLAGS  = -Wall -Wextra -O2 -Isrc -D_GNU_SOURCE -fPIC
 
@@ -30,15 +26,15 @@ OUT_PAYLOAD = $(BIN_DIR)/payload.bin
 
 all: dirs tools shellcode
 
-# =============================================================================
-# Create Build Directories
-# =============================================================================
+
+# ---[ Create Build Directories
+
 dirs:
 	@mkdir -p $(BUILD_DIR) $(OBJ_DIR) $(BIN_DIR)
 
-# =============================================================================
-# 1. BUILD TOOLS (Host-Side)
-# =============================================================================
+====
+# ---[ BUILD TOOLS (Host-Side)
+
 tools: $(OUT_BUILDER) $(OUT_LOADER) $(OUT_TESTS)
 
 $(OUT_BUILDER): $(EXAMPLES_DIR)/builder.c $(HOST_OBJ) | dirs
@@ -53,9 +49,8 @@ $(OUT_TESTS): $(SRC_DIR)/tests.c $(HOST_OBJ) | dirs
 	@echo "[BUILD] Test Suite..."
 	$(CC) $(CFLAGS) -o $@ $(SRC_DIR)/tests.c $(HOST_OBJ)
 
-# =============================================================================
-# 2. BUILD SHELLCODE (The Malware)
-# =============================================================================
+# ---[ BUILD SHELLCODE (The Malware)
+
 shellcode: $(OUT_IMPLANT) $(OUT_PAYLOAD)
 
 $(OUT_IMPLANT): $(EXAMPLES_DIR)/implant.c $(SRC_DIR)/pic.h $(BUILD_DIR)/flat.ld | dirs
@@ -84,17 +79,17 @@ $(OUT_PAYLOAD): $(EXAMPLES_DIR)/payload.c | dirs
 	objcopy -O binary -j .text $(OBJ_DIR)/payload.o $@
 	@echo "[INFO] Payload size: $$(stat -c%s $@ 2>/dev/null || stat -f%z $@) bytes"
 
-# =============================================================================
-# 3. VERIFICATION
-# =============================================================================
+
+# ---[ VERIFICATION
+
 test: $(OUT_TESTS)
 	@echo ""
 	@echo "=== RUNNING LOGIC VERIFICATION ==="
 	@cd $(BIN_DIR) && ./tests
 
-# =============================================================================
-# 4. KILL CHAIN - Binary
-# =============================================================================
+
+# ---[ KILL CHAIN - Binary
+
 demo: tools shellcode
 	@echo ""
 	@echo "=== RUNNING KILL CHAIN DEMO (BINARY) ==="
@@ -103,9 +98,9 @@ demo: tools shellcode
 	@echo "[2] LOADER: Injecting Implant..."
 	@cd $(BIN_DIR) && ./loader implant.bin traffic.dat
 
-# =============================================================================
-# 5. KILL CHAIN - JSON
-# =============================================================================
+
+# ---[ KILL CHAIN - JSON
+
 demo-json: tools shellcode
 	@echo ""
 	@echo "=== RUNNING KILL CHAIN DEMO (JSON) ==="
@@ -114,9 +109,9 @@ demo-json: tools shellcode
 	@echo "[2] LOADER: Injecting Implant (JSON)..."
 	@cd $(BIN_DIR) && ./loader implant.bin traffic.json
 
-# =============================================================================
-# Object File Compilation Rules
-# =============================================================================
+
+# ---[ Object File Compilation Rules
+
 $(OBJ_DIR)/encoder.o: $(SRC_DIR)/encoder.c $(SRC_DIR)/encoder.h $(SRC_DIR)/utils.h | dirs
 	@echo "[COMPILE] encoder.c"
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -129,17 +124,17 @@ $(OBJ_DIR)/utils.o: $(SRC_DIR)/utils.c $(SRC_DIR)/utils.h | dirs
 	@echo "[COMPILE] utils.c"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-# =============================================================================
-# Clean Target
-# =============================================================================
+
+# ---[ Clean Target
+
 clean:
 	@echo "[CLEAN] Removing build artifacts..."
 	@rm -rf $(BUILD_DIR)
 	@echo "[CLEAN] Done!"
 
-# =============================================================================
-# Help Target
-# =============================================================================
+
+# ---[ Help Target
+
 help:
 	@echo "Whisper - Covert Channel Protocol Library"
 	@echo ""
