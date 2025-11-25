@@ -10,7 +10,7 @@
 
 ==[ 0x00 :: MANIFEST ]==========================================================
 
-  Project:      ROULETTE
+  Project:      Cheshire
   Version:      1.0 (Stable)
   Type:         Header-Only Library / PIC Implant Engine
   Target:       x86_64 Linux (System V ABI) [ WINDOWS 11 IN THE FUTURE ]
@@ -31,7 +31,7 @@
 
 ==[ 0x01 :: INTRODUCTION ]======================================================
 
-  Roulette is a header-only C library designed to be integrated into 
+  Cheshire is a header-only C library designed to be integrated into 
   C2 Frameworks and Loaders. It provides a covert channel protocol that 
   tunnels binary payloads inside the state data of simple games (Tic-Tac-Toe, 
   Connect4, etc).
